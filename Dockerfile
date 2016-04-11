@@ -1,6 +1,12 @@
 FROM java:8-jdk
 
-RUN apt-get update && apt-get install -y wget git curl zip && rm -rf /var/lib/apt/lists/*
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN dpkg --add-architecture i386
+
+RUN apt-get update && apt-get install -y wget git curl zip \
+    lib32z1 libc6:i386 libncurses5:i386 libstdc++6:i386 \
+    make ruby ruby-dev software-properties-common \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
@@ -62,3 +68,4 @@ ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
 COPY plugins.sh /usr/local/bin/plugins.sh
+

@@ -1,0 +1,1 @@
+docker run -d --name my_jenkins -v /opt/tools/:/opt/tools/ -v /home/robert/DockerApp/var/jenkins_home:/var/jenkins_home -p 8081:8080 -p 50000:50000 --env JAVA_OPTS="-Djava.awt.headless=true -Dmail.smtp.starttls.enable=true" robert/jenkins
